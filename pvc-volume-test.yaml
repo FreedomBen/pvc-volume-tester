@@ -30,8 +30,6 @@ items:
       name: pvc-volume-test
       weight: 100
     wildcardPolicy: None
-    tls:
-      termination: passthrough
 - apiVersion: apps/v1
   kind: Deployment
   metadata:
