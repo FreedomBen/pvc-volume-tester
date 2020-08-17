@@ -20,7 +20,7 @@ Setting up your storage is outside the scope of this.  You should either have dy
 1.  Read the file and verify contents persisted:  `curl http://<app-route>/read`
 1.  You can clear the test file contents for repeated testing:  `curl http://<app-route>/clear`
 
-## Endpoints:
+## Endpoints (RPC-style):
 
 * `/readwrite`:  Writes and then reads a string to the file.  This can determine if there are any permission issues in place.
 * `/write`:  Writes a static test string to the file which can be checked with `/read`
