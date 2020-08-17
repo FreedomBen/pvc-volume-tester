@@ -49,7 +49,7 @@ items:
           app: pvc-volume-test
       spec:
         containers:
-        - image: quay.io/freedomben/metals:latest
+        - image: quay.io/freedomben/volume-tester:latest
           name: metals
           imagePullPolicy: Always
           ports:
@@ -65,4 +65,16 @@ items:
         volumes:
         - name: pvc-test-volume
           persistentVolumeClaim:
-            claimName: basic
+            claimName: pvc-test-volume-claim
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: pvc-test-volume-claim
+  spec:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+    # This storageClassName must be correct for your cluster storage solution
+    storageClassName: gp2
