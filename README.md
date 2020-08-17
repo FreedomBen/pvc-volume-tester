@@ -1,12 +1,16 @@
 # volume-tester
 
-Deploy into your OCP cluster, set the environment variable `VOLUME_TEST_FILE`, and curl the app.  It will try to write then read the file specified, and will tell you the results of the attempt.
+This simple app will help you test persistent storage in your OpenShift or Kubernetes cluster.
+
+It provides a few easy endpoints you can use to control it with curl.  It can read/write to a file on the volume and thus determine whether your storage is persisting across pods and has working permissions.
+
+The only configuration required for the app is to tell it where the test file will be.  For security reasons this must be an environment variable rather than specified as a post or query param to the app.  Set the env var `VOLUME_TEST_FILE` to point at the file that should be used for testing.
 
 ## To test your PVC
 
 ### 1. Deploy app to the cluster with a PVC
 
-Setting up your storage is outside the scope of this.  You should either have dynamic provisioning set up, or statically create the PVs required to satisfy the PVC claims.
+Setting up your storage backend and StorageClass is outside the scope of this tool.  Please see the vendor documentation for your solution of choice.  You should either have dynamic provisioning set up, or statically create the PVs required to satisfy the PVC claims.
 
 #### Create the PVC
 
