@@ -8,7 +8,7 @@ The only configuration required for the app is to tell it where the test file wi
 
 ## Quick/High-level Usage
 
-More detailed steps are available below:
+More detailed steps are [available below](#1-deploy-app-to-the-cluster-with-a-pvc):
 
 1.  Create a PVC to claim a volume from your storage solution.
 1.  Deploy this project's image with a Deployment, Service, and Route:  `quay.io/freedomben/volume-tester:latest`
@@ -21,11 +21,11 @@ More detailed steps are available below:
 
 ## To test your PVC
 
-### 1. Deploy app to the cluster with a PVC
+### 1. Create a PVC and Deploy this Image to the cluster
 
 Setting up your storage backend and StorageClass is outside the scope of this tool.  Please see the vendor documentation for your solution of choice.  You should either have dynamic provisioning set up, or statically create the PVs required to satisfy the PVC claims.
 
-#### Create the PVC
+#### A. Create the PVC
 
 If you have dynamic provisioning set up via a StorageClass, creating the PVC should be enough to get the PV created (Note that some CSI providers don't provision the PV until it's actually needed).
 
@@ -46,7 +46,7 @@ Example PVC:
     storageClassName: gp2
 ```
 
-#### Create the Deployment, Service, and Route:
+#### B. Create the Deployment, Service, and Route:
 
 ```yaml
 apiVersion: v1
