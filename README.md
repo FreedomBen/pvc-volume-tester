@@ -8,10 +8,10 @@ The only configuration required for the app is to tell it where the test file wi
 
 ## Quick/High-level Usage
 
-More detailed steps are [available below](#1-deploy-app-to-the-cluster-with-a-pvc):
+More detailed steps are [available below](#to-test-your-pvc):
 
 1.  Create a PVC to claim a volume from your storage solution.
-1.  Deploy this project's image with a Deployment, Service, and Route:  `quay.io/freedomben/volume-tester:latest`
+1.  Deploy this project's image with a Deployment, Service, and Route. Set the environment variable `VOLUME_TEST_FILE` to a file path inside the volume you mount.  Image: `quay.io/freedomben/volume-tester:latest`
 1.  Get the route for the image, and replace `<app-route>` below with it:  `oc get route`
 1.  Test basic reading/writing:  `curl http://<app-route>/readwrite`
 1.  Write the test string to a file:  `curl http://<app-route>/write`
