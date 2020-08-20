@@ -125,27 +125,57 @@ items:
 
 ```
 $ curl http://<app-route>/readwrite
-
+Read/Write: OK - Test contents: f2cc50f83a071bf8d0be551c09ea8eb6
 ```
+
+Your test contents will be different.  The string is randomly generated on each request.
 
 ### 3.  Test Persistence
 
 1.  First make sure the read test fails:  `curl http://<app-route>/read`
+
+```bash
+$ curl http://<app-route>/read
+Read: Failed - File contents: f2cc50f83a071bf8d0be551c09ea8eb6 - Expected: ABCDEFGHIJKLMNOPQRSTUVWXYZ.
+If you have not written the file yet, curl /write, delete and recreate the Pod, and try /read again
+```
+
 1.  Now write the test string to a file:  `curl http://<app-route>/write`
+
+```bash
+$ curl http://<app-route>/write
+Wrote 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' to file '/mnt/volume-test/temp.txt'.  Delete and re-create this Pod and curl /read to verify the string persisted
+```
+
 1.  Delete and recreate the Pod (so that the volume gets detached and reattached by your storage solution).  Don't delete the PVC otherwise your storage backend may delete the corresponding volume, throwing away the persistence we are testing.
+
+```bash
+oc delete pod <podname> # Hint: Tab-complete this if oc autocomplete is configured
+```
+
 1.  Read the file and verify contents persisted:  `curl http://<app-route>/read`
+
+```bash
+$ curl http://<app-route>/read
+Read: OK - File contents: ABCDEFGHIJKLMNOPQRSTUVWXYZ - Expected: ABCDEFGHIJKLMNOPQRSTUVWXYZ.
+```
+
 1.  You can clear the test file contents for repeated testing:  `curl http://<app-route>/clear`
 
+```bash
+$ curl http://<app-route>/clear
+Wrote empty string to file '/mnt/volume-test/temp.txt'.  Use /write to write test string
+```
 
 ### 4.  Clean up
 
-To clean up resources created above, you can use:
+To clean up all of the resources created above, you can use:
 
 ```bash
 oc delete all -l app=pvc-volume-test
 ```
 
-## Endpoints (RPC-style):
+## Endpoints Reference (RPC-style):
 
 * `/readwrite`:  Writes and then reads a string to the file.  This can determine if there are any permission issues in place.
 * `/write`:  Writes a static test string to the file which can be checked with `/read`
