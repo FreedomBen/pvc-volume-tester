@@ -35,6 +35,8 @@ Example PVC:
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
+    labels:
+      app: pvc-volume-test
     name: pvc-test-volume-claim
   spec:
     accessModes:
@@ -120,6 +122,11 @@ items:
 ### 2.  Test basic reading/writing to the volume
 
 1.  To test basic reading/writing:  `curl http://<app-route>/readwrite`
+
+```
+$ curl http://<app-route>/readwrite
+
+```
 
 ### 3.  Test Persistence
 
