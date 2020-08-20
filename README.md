@@ -101,7 +101,7 @@ items:
       spec:
         containers:
         - image: quay.io/freedomben/volume-tester:latest
-          name: metals
+          name: pvc-volume-test-container
           imagePullPolicy: Always
           ports:
           - containerPort: 8080
