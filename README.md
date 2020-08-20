@@ -136,6 +136,15 @@ $ curl http://<app-route>/readwrite
 1.  Read the file and verify contents persisted:  `curl http://<app-route>/read`
 1.  You can clear the test file contents for repeated testing:  `curl http://<app-route>/clear`
 
+
+### 4.  Clean up
+
+To clean up resources created above, you can use:
+
+```bash
+oc delete all -l app=pvc-volume-test
+```
+
 ## Endpoints (RPC-style):
 
 * `/readwrite`:  Writes and then reads a string to the file.  This can determine if there are any permission issues in place.

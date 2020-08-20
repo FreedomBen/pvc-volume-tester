@@ -67,6 +67,8 @@ items:
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
+    labels:
+      app: pvc-volume-test
     name: pvc-test-volume-claim
   spec:
     accessModes:
