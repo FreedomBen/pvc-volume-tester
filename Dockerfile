@@ -1,6 +1,6 @@
-FROM registry.access.redhat.com/ubi8/ruby-25
+FROM registry.access.redhat.com/ubi8/ruby-27
 
-ENV VERSION 0.0.2
+ENV VERSION 0.0.3
 
 LABEL io.k8s.description="volume-tester" \
   io.k8s.display-name="volume-tester v${VERSION}" \
@@ -9,7 +9,7 @@ LABEL io.k8s.description="volume-tester" \
   architecture="x86_64" \
   maintainer="github.com/FreedomBen"
 
-COPY . /app
+COPY --chown=default:root . /app
 
 WORKDIR /app
 USER root
