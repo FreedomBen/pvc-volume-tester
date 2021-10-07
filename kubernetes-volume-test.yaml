@@ -1,0 +1,74 @@
+# Tested on Digital Ocean
+apiVersion: v1
+kind: List
+metadata: {}
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: pvc-volume-test
+    name: pvc-volume-test
+  spec:
+    type: NodePort
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: pvc-volume-test
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    labels:
+      app: pvc-volume-test
+    name: pvc-volume-test
+  spec:
+    strategy:
+      type: Recreate
+    replicas: 1
+    selector:
+      matchLabels:
+        app: pvc-volume-test
+    template:
+      metadata:
+        labels:
+          app: pvc-volume-test
+      spec:
+        containers:
+        - image: quay.io/freedomben/volume-tester:latest
+          name: pvc-volume-test-container
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          env:
+          - name: VOLUME_TEST_FILE
+            value: '/mnt/some/directory/volume-test-file.txt'
+          volumeMounts:
+          - mountPath: "/mnt/some/directory"
+            name: pvc-test-volume
+        securityContext:
+          runAsUser: 1001
+          runAsGroup: 1001
+          fsGroup: 1001
+        # Change this Volumes section to match a  PVC you created for your storage backend
+        volumes:
+        - name: pvc-test-volume
+          persistentVolumeClaim:
+            claimName: pvc-test-volume-claim
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    labels:
+      app: pvc-volume-test
+    name: pvc-test-volume-claim
+  spec:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+    # This storageClassName must be correct for your cluster storage solution
+    storageClassName: do-block-storage
